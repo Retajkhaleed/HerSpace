@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+
+<!-- Workouts page layout -->
+<StackPane xmlns="http://javafx.com/javafx/13"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.herspace.controller.WorkoutsController"
+           styleClass="main-background">
+
+    <!-- Temporary page title for navigation testing -->
+    <Label text="Workouts"
+           styleClass="page-title"/>
+
+</StackPane>

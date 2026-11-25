@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+xmlns:fx="http://javafx.com/fxml/1"
+fx:controller="com.herspace.controller.ProgressController"
+stylesheets="@../css/style.css"
+prefWidth="850"
+prefHeight="600"
+spacing="30"
+style="-fx-background-color: #FAF7F2;">
+
+<padding>
+    <Insets top="30" right="30"
+            bottom="20" left="30"/>
+</padding>
+
+<!-- Header -->
+
+<HBox alignment="CENTER_LEFT" spacing="20">
+
+    <VBox spacing="5">
+
+        <Label text="Progress"
+               styleClass="page-title"/>
+
+        <Label text="Track your weight over time"
+               styleClass="subtitle"/>
+
+    </VBox>
+
+    <Region HBox.hgrow="ALWAYS"/>
+
+    <Button fx:id="addWeightButton"
+            text="+ Add Weight"
+            prefWidth="150"
+            prefHeight="45"
+            styleClass="primary-button"/>
+
+</HBox>
+
+<!-- Main Content -->
+
+<HBox spacing="25" VBox.vgrow="ALWAYS">
+
+    <!-- Weight History -->
+
+    <TableView fx:id="weightTable"
+               prefWidth="470"
+               HBox.hgrow="ALWAYS">
+
+        <columns>
+
+            <TableColumn fx:id="dateColumn"
+                         text="Date"
+                         prefWidth="230"/>
+
+            <TableColumn fx:id="weightColumn"
+                         text="Weight (kg)"
+                         prefWidth="220"/>
+
+        </columns>
+
+    </TableView>
+
+    <!-- Weight Summary -->
+
+    <VBox alignment="CENTER"
+          spacing="15"
+          prefWidth="240"
+          styleClass="card">
+
+        <ImageView fitWidth="100"
+                   fitHeight="100"
+                   preserveRatio="true">
+
+            <image>
+                <Image url="@../images/scale.png"/>
+            </image>
+
+        </ImageView>
+
+        <Label text="Current Weight"
+               style="-fx-font-size: 18px;
+                      -fx-text-fill: #6B5B63;"/>
+
+        <Label fx:id="currentWeightLabel"
+               text="-- kg"
+               style="-fx-font-size: 30px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #342A38;"/>
+
+        <Separator/>
+
+        <Label text="Change"
+               style="-fx-font-size: 18px;
+                      -fx-text-fill: #6B5B63;"/>
+
+        <Label fx:id="changeLabel"
+               text="-- kg"
+               style="-fx-font-size: 28px;
+                      -fx-font-weight: bold;
+                      -fx-text-fill: #92576D;"/>
+
+    </VBox>
+
+</HBox>
+
+<!-- Decorative Wave -->
+
+<ImageView fitWidth="780"
+           fitHeight="75"
+           preserveRatio="false">
+
+    <image>
+        <Image url="@../images/wave.png"/>
+    </image>
+
+</ImageView>
+
+</VBox>
