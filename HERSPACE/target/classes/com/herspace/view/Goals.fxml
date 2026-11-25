@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.StackPane?>
+
+<!-- Goals page layout -->
+<StackPane xmlns="http://javafx.com/javafx/13"
+           xmlns:fx="http://javafx.com/fxml/1"
+           fx:controller="com.herspace.controller.GoalsController"
+           styleClass="main-background">
+
+    <!-- Temporary page title for navigation testing -->
+    <Label text="Goals"
+           styleClass="page-title"/>
+
+</StackPane>

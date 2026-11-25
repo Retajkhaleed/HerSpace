@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+
+<!-- Main application layout -->
+<BorderPane xmlns="http://javafx.com/javafx/13"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.herspace.controller.MainController"
+            prefWidth="1100"
+            prefHeight="700"
+            styleClass="main-background">
+
+    <!-- Left navigation sidebar -->
+    <left>
+        <VBox prefWidth="220"
+              spacing="12"
+              alignment="TOP_CENTER"
+              styleClass="sidebar">
+
+            <!-- Sidebar inner spacing -->
+            <padding>
+                <Insets top="20"
+                        right="15"
+                        bottom="15"
+                        left="15"/>
+            </padding>
+
+            <!-- HERSPACE application logo -->
+            <ImageView fitWidth="190"
+                       fitHeight="150"
+                       preserveRatio="true"
+                       smooth="true">
+                <image>
+                    <Image url="@../images/Logo.png"/>
+                </image>
+            </ImageView>
+
+            <!-- Space below the logo -->
+            <Region prefHeight="10"/>
+
+            <!-- Dashboard navigation button -->
+            <ToggleButton fx:id="dashboardButton"
+                          text="Dashboard"
+                          maxWidth="Infinity"
+                          selected="true"
+                          graphicTextGap="12"
+                          styleClass="nav-button">
+
+                <!-- Dashboard icon -->
+                <graphic>
+                    <ImageView fitWidth="20"
+                               fitHeight="20"
+                               preserveRatio="true"
+                               smooth="true"
+                               styleClass="nav-icon">
+                        <image>
+                            <Image url="@../images/dashboard.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+
+            </ToggleButton>
+
+            <!-- Workouts navigation button -->
+            <ToggleButton fx:id="workoutsButton"
+                          text="Workouts"
+                          maxWidth="Infinity"
+                          graphicTextGap="12"
+                          styleClass="nav-button">
+
+                <!-- Workouts icon -->
+                <graphic>
+                    <ImageView fitWidth="20"
+                               fitHeight="20"
+                               preserveRatio="true"
+                               smooth="true"
+                               styleClass="nav-icon">
+                        <image>
+                            <Image url="@../images/workouts.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+
+            </ToggleButton>
+
+            <!-- Nutrition navigation button -->
+            <ToggleButton fx:id="nutritionButton"
+                          text="Nutrition"
+                          maxWidth="Infinity"
+                          graphicTextGap="12"
+                          styleClass="nav-button">
+
+                <!-- Nutrition icon -->
+                <graphic>
+                    <ImageView fitWidth="20"
+                               fitHeight="20"
+                               preserveRatio="true"
+                               smooth="true"
+                               styleClass="nav-icon">
+                        <image>
+                            <Image url="@../images/nutrition.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+
+            </ToggleButton>
+
+            <!-- Progress navigation button -->
+            <ToggleButton fx:id="progressButton"
+                          text="Progress"
+                          maxWidth="Infinity"
+                          graphicTextGap="12"
+                          styleClass="nav-button">
+
+                <!-- Progress icon -->
+                <graphic>
+                    <ImageView fitWidth="20"
+                               fitHeight="20"
+                               preserveRatio="true"
+                               smooth="true"
+                               styleClass="nav-icon">
+                        <image>
+                            <Image url="@../images/progress.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+
+            </ToggleButton>
+
+            <!-- Goals navigation button -->
+            <ToggleButton fx:id="goalsButton"
+                          text="Goals"
+                          maxWidth="Infinity"
+                          graphicTextGap="12"
+                          styleClass="nav-button">
+
+                <!-- Goals icon -->
+                <graphic>
+                    <ImageView fitWidth="20"
+                               fitHeight="20"
+                               preserveRatio="true"
+                               smooth="true"
+                               styleClass="nav-icon">
+                        <image>
+                            <Image url="@../images/goals.png"/>
+                        </image>
+                    </ImageView>
+                </graphic>
+
+            </ToggleButton>
+
+        </VBox>
+    </left>
+
+    <!-- Main content area used to display application pages -->
+    <center>
+        <StackPane fx:id="contentArea"
+                   styleClass="content-area"/>
+    </center>
+
+</BorderPane>

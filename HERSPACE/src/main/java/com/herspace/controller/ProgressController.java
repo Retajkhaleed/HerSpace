@@ -75,7 +75,7 @@ private void openLogWeight() {
     try {
 
         FXMLLoader loader = new FXMLLoader(
-                getClass().getResource("/view/LogWeight.fxml"));
+                getClass().getResource("/com/herspace/view/LogWeight.fxml"));
 
         Parent root = loader.load();
 
@@ -159,17 +159,11 @@ private void updateSummary() {
 
     if (change < 0) {
 
-        changeLabel.setStyle(
-                "-fx-font-size: 28px;"
-                + "-fx-font-weight: bold;"
-                + "-fx-text-fill: #789273;");
+        changeLabel.setStyle("-fx-text-fill: -success-color;");
 
     } else {
 
-        changeLabel.setStyle(
-                "-fx-font-size: 28px;"
-                + "-fx-font-weight: bold;"
-                + "-fx-text-fill: #92576D;");
+        changeLabel.setStyle("-fx-text-fill: -selected-color;");
     }
 }
 
