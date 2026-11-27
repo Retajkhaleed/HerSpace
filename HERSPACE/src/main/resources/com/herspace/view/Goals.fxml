@@ -1,16 +1,198 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
 <!-- Goals page layout -->
-<StackPane xmlns="http://javafx.com/javafx/13"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.herspace.controller.GoalsController"
-           styleClass="main-background">
+<VBox xmlns="http://javafx.com/javafx/13"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.herspace.controller.GoalsController"
+      spacing="25"
+      stylesheets="@../css/style.css">
+    <!-- spacing between page header, summary cards and goals list -->
 
-    <!-- Temporary page title for navigation testing -->
-    <Label text="Goals"
-           styleClass="page-title"/>
+    <!-- Page header -->
+    <HBox alignment="CENTER_LEFT" spacing="15">
 
-</StackPane>
+        <VBox spacing="5">
+            <Label text="Goals"
+                   styleClass="page-title"/>
+
+            <Label text="Set personal fitness goals and track your progress."
+                   styleClass="page-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>  <!-- Pushes the button to the right -->
+
+        <Button fx:id="addGoalButton"
+                text="+ Add Goal"
+                styleClass="primary-button"/>
+
+    </HBox>
+
+    <!-- Goals summary -->
+    <HBox spacing="20">
+
+        <!-- Total goals card -->
+        <VBox spacing="12"
+              styleClass="card"
+              HBox.hgrow="ALWAYS"
+              maxWidth="Infinity">
+
+            <padding>
+                <Insets top="20" right="20"
+                        bottom="20" left="20"/>
+            </padding>
+
+            <ImageView fitWidth="35"
+                       fitHeight="35"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/goals.png"/>
+                </image>
+            </ImageView>
+
+            <Label text="Total Goals"
+                   styleClass="section-title"/>
+
+            <Label fx:id="totalGoalsLabel"
+                   text="0"
+                   styleClass="stat-value"/>
+
+        </VBox>
+
+        <!-- In progress card -->
+        <VBox spacing="12"
+              styleClass="card"
+              HBox.hgrow="ALWAYS"
+              maxWidth="Infinity">
+
+            <padding>
+                <Insets top="20" right="20"
+                        bottom="20" left="20"/>
+            </padding>
+
+            <ImageView fitWidth="35"
+                       fitHeight="35"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/workouts.png"/>
+                </image>
+            </ImageView>
+
+            <Label text="In Progress"
+                   styleClass="section-title"/>
+
+            <Label fx:id="inProgressLabel"
+                   text="0"
+                   styleClass="stat-value"/>
+
+        </VBox>
+
+        <!-- Completed card -->
+        <VBox spacing="12"
+              styleClass="card"
+              HBox.hgrow="ALWAYS"
+              maxWidth="Infinity">
+
+            <padding>
+                <Insets top="20" right="20"
+                        bottom="20" left="20"/>
+            </padding>
+
+            <ImageView fitWidth="35"
+                       fitHeight="35"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/progress.png"/>
+                </image>
+            </ImageView>
+
+            <Label text="Completed"
+                   styleClass="section-title"/>
+
+            <Label fx:id="completedLabel"
+                   text="0"
+                   styleClass="stat-value"/>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Goals list -->
+    <VBox spacing="20"
+          styleClass="card"
+          VBox.vgrow="ALWAYS">
+
+        <padding>
+            <Insets top="20" right="20"
+                    bottom="20" left="20"/>
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+
+            <Label text="My Goals"
+                   styleClass="section-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="Show"
+                   styleClass="body-text"/>
+
+            <ComboBox fx:id="statusFilterComboBox"
+                      prefWidth="160"/>
+
+        </HBox>
+
+        <TableView fx:id="goalTable"
+                   prefHeight="300"
+                   fixedCellSize="64"
+                   VBox.vgrow="ALWAYS">
+
+            <columns>
+
+                <TableColumn fx:id="goalColumn"
+                             text="Goal"
+                             prefWidth="270"
+                             minWidth="90"/>
+
+                <TableColumn fx:id="progressColumn"
+                             text="Progress"
+                             prefWidth="170"
+                             minWidth="110"/>
+
+                <TableColumn fx:id="deadlineColumn"
+                             text="Deadline"
+                             prefWidth="115"
+                             minWidth="110"/>
+
+                <TableColumn fx:id="statusColumn"
+                             text="Status"
+                             prefWidth="110"
+                             minWidth="105"/>
+
+                <TableColumn fx:id="actionsColumn"
+                             text="Actions"
+                             prefWidth="190"
+                             minWidth="185"
+                             sortable="false"/>
+
+            </columns>
+
+            <placeholder>
+                <Label fx:id="placeholderLabel"
+                       text="No goals yet. Click + Add Goal to create one."
+                       styleClass="secondary-text"/>
+            </placeholder>
+
+        </TableView>
+
+        <Label text="Tip: double-click a goal to edit it."
+               styleClass="secondary-text"/>
+
+    </VBox>
+
+</VBox>
+
