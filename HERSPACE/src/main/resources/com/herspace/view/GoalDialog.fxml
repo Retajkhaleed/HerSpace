@@ -1,1 +1,126 @@
 
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<!-- Dialog used to add or edit a goal -->
+<VBox xmlns="http://javafx.com/javafx/13"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.herspace.controller.GoalDialogController"
+      spacing="20"
+      prefWidth="440"
+      styleClass="card"
+      stylesheets="@../css/style.css">
+
+    <padding>
+        <Insets top="25" right="25"
+                bottom="25" left="25"/>
+    </padding>
+
+    <!-- Dialog title -->
+    <Label fx:id="dialogTitle"
+           text="Add Goal"
+           styleClass="page-title"/>
+
+    <!-- Goal title -->
+    <VBox spacing="8">
+
+        <Label text="Goal Title"
+               styleClass="body-text"/>
+
+        <TextField fx:id="titleField"
+                   promptText="e.g. Complete 10 workouts"/>
+
+    </VBox>
+
+    <!-- Goal description -->
+    <VBox spacing="8">
+
+        <Label text="Description (optional)"
+               styleClass="body-text"/>
+
+        <TextArea fx:id="descriptionArea"
+                  promptText="Describe your goal"
+                  prefRowCount="3"
+                  wrapText="true"/>
+
+    </VBox>
+
+    <!-- Target value and unit -->
+    <HBox spacing="15">
+
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+
+            <Label text="Target"
+                   styleClass="body-text"/>
+
+            <TextField fx:id="targetField"
+                       promptText="e.g. 10"/>
+
+        </VBox>
+
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+
+            <Label text="Unit"
+                   styleClass="body-text"/>
+
+            <ComboBox fx:id="unitComboBox"
+                      promptText="Select unit"
+                      maxWidth="Infinity"
+                      prefHeight="40"/>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Current progress and deadline -->
+    <HBox spacing="15">
+
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+
+            <Label text="Current Progress"
+                   styleClass="body-text"/>
+
+            <TextField fx:id="currentField"
+                       promptText="0"/>
+
+        </VBox>
+
+        <VBox spacing="8" HBox.hgrow="ALWAYS">
+
+            <Label text="Deadline"
+                   styleClass="body-text"/>
+
+            <DatePicker fx:id="deadlinePicker"
+                        maxWidth="Infinity"
+                        editable="false"/>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Validation message -->
+    <Label fx:id="errorLabel"
+           styleClass="error-message"
+           wrapText="true"
+           visible="false"
+           managed="false"/>
+
+    <!-- Dialog actions -->
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+
+        <Button fx:id="cancelButton"
+                text="Cancel"
+                cancelButton="true"
+                styleClass="secondary-button"/>
+
+        <Button fx:id="saveGoalButton"
+                text="Add Goal"
+                defaultButton="true"
+                styleClass="primary-button"/>
+
+    </HBox>
+
+</VBox>
