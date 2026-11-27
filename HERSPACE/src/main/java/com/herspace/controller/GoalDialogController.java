@@ -3,30 +3,44 @@ package com.herspace.controller;
 import com.herspace.model.Goal;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Locale;
+import java.util.function.Predicate;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
 /**
- * Controller of the Log Progress dialog (LogGoalProgress.fxml).
- * Returns the amount the user wants to add to a goal.
+ * Controller of the Add / Edit Goal dialog (GoalDialog.fxml).
+ * Validates the input and returns a Goal to the Goals page.
  */
-public class LogGoalProgressController {
+public class GoalDialogController {
+
+    private static final int MAX_TITLE_LENGTH = 60;
+    private static final int MAX_DESCRIPTION_LENGTH = 200;
+    private static final double MAX_TARGET = 1_000_000;
 
     @FXML
-    private Label goalNameLabel;
+    private Label dialogTitle;
 
     @FXML
-    private Label summaryLabel;
+    private TextField titleField;
 
     @FXML
-    private Label amountLabel;
+    private TextArea descriptionArea;
 
     @FXML
-    private TextField amountField;
+    private TextField targetField;
+
+    @FXML
+    private ComboBox<String> unitComboBox;
+
+    @FXML
+    private TextField currentField;
+
+    @FXML
+    private DatePicker deadlinePicker;
 
     @FXML
     private Label errorLabel;
@@ -35,80 +49,175 @@ public class LogGoalProgressController {
     private Button cancelButton;
 
     @FXML
-    private Button saveButton;
+    private Button saveGoalButton;
 
     private final DecimalFormat numberFormat =
             new DecimalFormat("0.##",
                     DecimalFormatSymbols.getInstance(Locale.ENGLISH));
 
-    private double remaining;
+    // Existing goals, used to detect duplicate titles
+    private List<Goal> existingGoals;
 
-    private Double resultAmount;
+    // The goal being edited (null when adding a new goal)
+    private Goal editedGoal;
 
-    // Initializes the dialog events.
+    private Goal resultGoal;
+
+    // Initializes the unit list and the dialog events.
     @FXML
     private void initialize() {
 
-        saveButton.setOnAction(e -> saveProgress());
+        unitComboBox.getItems().addAll(
+                "workouts", "minutes", "km", "steps", "days", "kg"
+        );
+
+        deadlinePicker.setValue(LocalDate.now().plusMonths(1));
+
+        currentField.setText("0");
+
+        saveGoalButton.setOnAction(e -> saveGoal());
 
         cancelButton.setOnAction(e -> closeDialog());
 
-        // The button stays disabled while the field is empty
-        saveButton.disableProperty().bind(
-                amountField.textProperty().isEmpty());
+        // Save stays disabled until the required fields are filled
+        saveGoalButton.disableProperty().bind(
+                titleField.textProperty().isEmpty()
+                .or(targetField.textProperty().isEmpty())
+                .or(unitComboBox.valueProperty().isNull())
+                .or(deadlinePicker.valueProperty().isNull())
+        );
 
-        amountField.textProperty().addListener((obs, oldValue, newValue) -> {
-            errorLabel.setVisible(false);
-            errorLabel.setManaged(false);
-        });
+        // Hide the old message as soon as the user edits a field
+        titleField.textProperty().addListener(
+                (obs, oldValue, newValue) -> hideError());
+        targetField.textProperty().addListener(
+                (obs, oldValue, newValue) -> hideError());
+        currentField.textProperty().addListener(
+                (obs, oldValue, newValue) -> hideError());
     }
 
-    // Shows the selected goal's current state.
-    public void setGoal(Goal goal) {
-
-        goalNameLabel.setText(goal.getTitle());
-
-        summaryLabel.setText(
-                numberFormat.format(goal.getCurrent()) + " / "
-                + numberFormat.format(goal.getTarget()) + " "
-                + goal.getUnit() + " (" + goal.getPercentage() + "%)");
-
-        amountLabel.setText("Amount to add (" + goal.getUnit() + ")");
-
-        remaining = goal.getTarget() - goal.getCurrent();
+    // Gives the dialog the goals that already exist.
+    public void setExistingGoals(List<Goal> goals) {
+        this.existingGoals = goals;
     }
 
-    // Validates the amount entered by the user.
-    private void saveProgress() {
+    // Prepares the dialog with the selected goal's data.
+    public void setEditMode(Goal goal) {
 
-        double amount;
+        editedGoal = goal;
+
+        dialogTitle.setText("Edit Goal");
+
+        saveGoalButton.setText("Save Changes");
+
+        titleField.setText(goal.getTitle());
+
+        descriptionArea.setText(goal.getDescription());
+
+        targetField.setText(numberFormat.format(goal.getTarget()));
+
+        unitComboBox.setValue(goal.getUnit());
+
+        currentField.setText(numberFormat.format(goal.getCurrent()));
+
+        deadlinePicker.setValue(goal.getDeadline());
+    }
+
+    // Validates the input and creates a goal object.
+    private void saveGoal() {
+
+        String title = titleField.getText().trim();
+
+        String description = descriptionArea.getText().trim();
+
+        String unit = unitComboBox.getValue();
+
+        LocalDate deadline = deadlinePicker.getValue();
+
+        if (title.isEmpty() || unit == null || deadline == null
+                || targetField.getText().trim().isEmpty()) {
+
+            showError("Please complete all required fields.");
+            return;
+        }
+
+        if (title.length() > MAX_TITLE_LENGTH) {
+            showError("The title cannot be longer than "
+                    + MAX_TITLE_LENGTH + " characters.");
+            return;
+        }
+
+        if (description.length() > MAX_DESCRIPTION_LENGTH) {
+            showError("The description cannot be longer than "
+                    + MAX_DESCRIPTION_LENGTH + " characters.");
+            return;
+        }
+
+        // Rejects another goal that has the same title
+        Predicate<Goal> sameTitle = goal ->
+                goal != editedGoal
+                && goal.getTitle().equalsIgnoreCase(title);
+
+        if (existingGoals != null
+                && existingGoals.stream().anyMatch(sameTitle)) {
+            showError("A goal with this title already exists.");
+            return;
+        }
+
+        double target;
+        double current;
 
         try {
 
-            amount = Double.parseDouble(amountField.getText().trim());
+            target = Double.parseDouble(targetField.getText().trim());
+
+            String currentText = currentField.getText().trim();
+
+            current = currentText.isEmpty()
+                    ? 0 : Double.parseDouble(currentText);
 
         } catch (NumberFormatException e) {
 
-            showError("Please enter a valid number.");
+            showError("Please enter valid numbers for target and progress.");
             return;
         }
 
-        if (!Double.isFinite(amount) || amount <= 0) {
-            showError("Please enter a number greater than zero.");
+        // Positive finite number up to the maximum
+        Predicate<Double> validTarget = value ->
+                Double.isFinite(value) && value > 0 && value <= MAX_TARGET;
+
+        if (!validTarget.test(target)) {
+            showError("The target must be greater than 0 and at most "
+                    + numberFormat.format(MAX_TARGET) + ".");
             return;
         }
 
-        if (amount > remaining + 1e-9) {
-            showError("This is more than the remaining "
-                    + numberFormat.format(remaining) + ".");
+        if (!Double.isFinite(current) || current < 0) {
+            showError("Progress cannot be negative.");
             return;
         }
 
-        resultAmount = amount;
+        if (current > target) {
+            showError("Progress cannot be greater than the target.");
+            return;
+        }
+
+        LocalDate startDate = (editedGoal == null)
+                ? LocalDate.now() : editedGoal.getStartDate();
+
+        if (deadline.isBefore(startDate)) {
+            showError("The deadline cannot be before the start date ("
+                    + startDate + ").");
+            return;
+        }
+
+        resultGoal = new Goal(title, description, target,
+                unit, current, startDate, deadline);
 
         closeDialog();
     }
 
+    // Displays a validation message and adjusts the window size.
     private void showError(String message) {
 
         errorLabel.setText(message);
@@ -122,6 +231,14 @@ public class LogGoalProgressController {
         stage.sizeToScene();
     }
 
+    private void hideError() {
+
+        errorLabel.setVisible(false);
+
+        errorLabel.setManaged(false);
+    }
+
+    // Closes the current dialog window.
     private void closeDialog() {
 
         Stage stage = (Stage) cancelButton
@@ -129,6 +246,11 @@ public class LogGoalProgressController {
 
         stage.close();
     }
+
+    public Goal getResultGoal() {
+        return resultGoal;
+    }
+}
 
     // Returns null when the user cancelled.
     public Double getResultAmount() {
