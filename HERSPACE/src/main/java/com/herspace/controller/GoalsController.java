@@ -507,13 +507,14 @@ public class GoalsController {
 
             return controller.getResultGoal();
 
-        } catch (IOException e) {
+            } catch (IOException e) {
+
+            e.printStackTrace();   // أضف هذا السطر
 
             showErrorAlert("Unable to open the goal dialog.");
 
             return null;
         }
-    }
 
     // Opens the dialog used to add progress to a goal.
     private void openLogProgressDialog(Goal goal) {
