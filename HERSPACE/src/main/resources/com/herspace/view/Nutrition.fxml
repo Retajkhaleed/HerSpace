@@ -1,16 +1,166 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.StackPane?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-<!-- Nutrition page layout -->
-<StackPane xmlns="http://javafx.com/javafx/13"
-           xmlns:fx="http://javafx.com/fxml/1"
-           fx:controller="com.herspace.controller.NutritionController"
-           styleClass="main-background">
+<VBox xmlns="http://javafx.com/javafx/13"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.herspace.controller.NutritionController"
+      spacing="25"    
+      stylesheets="@../css/style.css">
+    <!-- spacing between page header, summary cards and meals history -->
+      
+      
+      
+    <!-- Page header -->
+    <HBox alignment="CENTER_LEFT" spacing="15"> 
 
-    <!-- Temporary page title for navigation testing -->
-    <Label text="Nutrition"
-           styleClass="page-title"/>
+        <VBox spacing="5"> 
+            <Label text="Nutrition"
+                   styleClass="page-title"/>
 
-</StackPane>
+            <Label text="Track your meals and daily calories."
+                   styleClass="page-subtitle"/>
+        </VBox>
+
+        <Region HBox.hgrow="ALWAYS"/>  <!-- Pushes the button to the right -->
+
+        <Button fx:id="addMealButton"
+                text="+ Add Meal"
+                styleClass="primary-button"/>
+
+    </HBox>
+
+    <!-- Daily nutrition summary -->
+    <HBox spacing="20">
+
+        <!-- Total calories card -->
+        <VBox spacing="12"
+              styleClass="card"
+              HBox.hgrow="ALWAYS"
+              maxWidth="Infinity">
+
+            <padding>
+                <Insets top="20" right="20"
+                        bottom="20" left="20"/>
+            </padding>
+
+            <!-- Calorie icon -->
+            <ImageView fitWidth="35"
+                       fitHeight="35"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/calorie.png"/>
+                </image>
+            </ImageView>
+
+            <Label text="Total Calories"
+                   styleClass="section-title"/>
+
+            <!-- Aligns the calorie value and its unit -->
+            <HBox alignment="BASELINE_LEFT" spacing="5">
+
+                <Label fx:id="totalCaloriesLabel"
+                       text="0"
+                       styleClass="stat-value"/>
+
+                <Label text="kcal"
+                       styleClass="secondary-text"/>
+
+            </HBox>
+
+        </VBox>
+
+        <!-- Number of meals card -->
+        <VBox spacing="12"
+              styleClass="card"
+              HBox.hgrow="ALWAYS"
+              maxWidth="Infinity">
+
+            <padding>
+                <Insets top="20" right="20"
+                        bottom="20" left="20"/>
+            </padding>
+
+            <ImageView fitWidth="35"
+                       fitHeight="35"
+                       preserveRatio="true">
+                <image>
+                    <Image url="@../images/nutrition.png"/>
+                </image>
+            </ImageView>
+
+            <Label text="Number of Meals"
+                   styleClass="section-title"/>
+
+            <Label fx:id="mealCountLabel"
+                   text="0"
+                   styleClass="stat-value"/>
+
+        </VBox>
+
+    </HBox>
+
+    <!-- Meal history -->
+    <VBox spacing="20"
+          styleClass="card"
+          VBox.vgrow="ALWAYS">
+
+        <padding>
+            <Insets top="20" right="20"
+                    bottom="20" left="20"/>
+        </padding>
+
+        <HBox alignment="CENTER_LEFT" spacing="10">
+
+            <Label text="Meal History"
+                   styleClass="section-title"/>
+
+            <Region HBox.hgrow="ALWAYS"/>
+
+            <Label text="Date"
+                   styleClass="body-text"/>
+
+            <DatePicker fx:id="datePicker"
+                        prefWidth="160"/>
+
+        </HBox>
+
+        <TableView fx:id="mealTable"
+                   prefHeight="300"
+                   VBox.vgrow="ALWAYS">
+
+            <columns>
+
+                <TableColumn fx:id="mealNameColumn"
+                             text="Meal Name"
+                             prefWidth="230"/>
+
+                <TableColumn fx:id="mealTypeColumn"
+                             text="Meal Type"
+                             prefWidth="130"/>
+
+                <TableColumn fx:id="caloriesColumn"
+                             text="Calories"
+                             prefWidth="100"/>
+
+                <TableColumn fx:id="actionsColumn"
+                             text="Actions"
+                             prefWidth="180"
+                             sortable="false"/>
+
+            </columns>
+
+
+            <placeholder>
+                <Label text="No meals recorded for this date."
+                       styleClass="secondary-text"/>
+            </placeholder>
+
+        </TableView>
+
+    </VBox>
+
+</VBox>

@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<VBox xmlns="http://javafx.com/javafx/13"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="com.herspace.controller.MealDialogController"
+      spacing="20"
+      prefWidth="400"
+      styleClass="card"
+      stylesheets="@../css/style.css">
+
+    <padding>
+        <Insets top="25" right="25"
+                bottom="25" left="25"/>
+    </padding>
+
+    <!-- Dialog title -->
+    <Label fx:id="dialogTitle"
+           text="Add Meal"
+           styleClass="page-title"/>
+
+    <!-- Meal name -->
+    <VBox spacing="8">
+
+        <Label text="Meal Name"
+               styleClass="body-text"/>
+
+        <TextField fx:id="mealNameField"
+                   promptText="Enter meal name"/>
+
+    </VBox>
+
+    <!-- Meal type -->
+    <VBox spacing="8">
+
+        <Label text="Meal Type"
+               styleClass="body-text"/>
+
+        <ComboBox fx:id="mealTypeComboBox"
+                  promptText="Select meal type"
+                  maxWidth="Infinity"
+                  prefHeight="40"/>
+
+    </VBox>
+
+    <!-- Calories -->
+    <VBox spacing="8">
+
+        <Label text="Calories (kcal)"
+               styleClass="body-text"/>
+
+        <TextField fx:id="caloriesField"
+                   promptText="Enter calories"/>
+
+    </VBox>
+
+    <!-- Meal date -->
+    <VBox spacing="8">
+
+        <Label text="Date"
+               styleClass="body-text"/>
+
+        <DatePicker fx:id="mealDatePicker"
+                    maxWidth="Infinity"
+                    editable="false"/>
+
+    </VBox>
+
+    <!-- Validation message -->
+    <Label fx:id="errorLabel"
+           styleClass="error-message"
+           wrapText="true"
+           visible="false"
+           managed="false"/>
+
+    <!-- Dialog actions -->
+    <HBox alignment="CENTER_RIGHT" spacing="10">
+
+        <Button fx:id="cancelButton"
+                text="Cancel"
+                styleClass="secondary-button"/>
+
+        <Button fx:id="saveMealButton"
+                text="Add Meal"
+                styleClass="primary-button"/>
+
+    </HBox>
+
+</VBox>

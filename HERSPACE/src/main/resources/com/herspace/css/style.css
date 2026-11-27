@@ -339,10 +339,6 @@
     -fx-padding: 10px;
 }
 
-/* Hover over a non-empty table row */
-.table-row-cell:filled:hover {
-    -fx-background-color: -hover-bg;
-}
 
 /* Selected table row */
 .table-row-cell:filled:selected {
@@ -419,10 +415,10 @@
 
 /* Error message */
 .error-message {
-    -fx-background-color: -error-color;
-    -fx-text-fill: -text-primary;
-    -fx-background-radius: 8px;
-    -fx-padding: 10px 14px;
+    -fx-text-fill: -error-color;
+    -fx-font-size: 12px;
+    -fx-background-color: transparent;
+    -fx-padding: 0;
 }
 
 
